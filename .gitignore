@@ -2,3 +2,5 @@ mailrelay
 test
 vendor
 build
+.pytest_cache
+__pycache__
