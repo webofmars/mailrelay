@@ -32,6 +32,13 @@ func sendMail(e *mail.Envelope, config *relayConfig) error {
 	var client *smtp.Client
 	var writer io.WriteCloser
 
+	// respect from consitence to avoid 501 errors
+	// Error closing writer: 501 5.5.1 The 'From:' header and the 'SMTP FROM:' envelope information are not consistent
+	fromHeader := e.Header.Get("From")
+	realFrom, _ := mail.NewAddress(fromHeader)
+	e.MailFrom = *realFrom
+	Logger.Infof("overriden email from:%s", e.MailFrom.String())
+
 	tlsconfig := &tls.Config{
 		InsecureSkipVerify: config.SkipVerify, //nolint:gosec
 		ServerName:         config.Server,

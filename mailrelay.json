@@ -1,14 +1,16 @@
 {
-	"smtp_server": "smtp.fastmail.com",
-	"smtp_port": 465,
-	"smtp_starttls": false,
-	"smtp_login_auth_type": false,
-	"smtp_username": "username@fastmail.com",
-    "smtp_password": "secret_app_password",
-    "smtp_max_email_size": 83886080,
-	"smtp_skip_cert_verify": false,
-	"local_listen_port": 2525,
-	"local_listen_ip": "0.0.0.0",
-    "allowed_hosts": ["*"],
-    "timeout_secs": 30
+  "smtp_server": "smtp.fastmail.com",
+  "smtp_port": 465,
+  "smtp_starttls": false,
+  "smtp_login_auth_type": false,
+  "smtp_username": "username@fastmail.com",
+  "smtp_password": "secret_app_password",
+  "smtp_max_email_size": 83886080,
+  "smtp_skip_cert_verify": false,
+  "local_listen_port": 2525,
+  "local_listen_ip": "0.0.0.0",
+  "allowed_hosts": [
+    "*"
+  ],
+  "timeout_secs": 30
 }
