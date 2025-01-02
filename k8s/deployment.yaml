@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mailrelay
+  labels:
+    kubernetes.io/instance: mailrelay
+    kubernetes.io/name: mailrelay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      kubernetes.io/instance: mailrelay
+      kubernetes.io/name: mailrelay
+  template:
+    metadata:
+      labels:
+        kubernetes.io/instance: mailrelay
+        kubernetes.io/name: mailrelay
+    spec:
+      containers:
+      - name: mailrelay
+        image: ttl.sh/28bee6d2-6ff9-4cd9-96e1-8a1ca8fd21bd:3h@sha256:34c8a53a707be5e1c7cf3d7c2f42232d8917535926ccfb2ef25d366da58868fb
+        volumeMounts:
+        - name: config
+          mountPath: /etc/mailrelay
+      volumes:
+        - name: config
+          configMap:
+            name: mailrelay

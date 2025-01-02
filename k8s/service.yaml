@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name:  mailrelay
+spec:
+  selector:
+    kubernetes.io/instance: mailrelay
+    kubernetes.io/name: mailrelay
+  type:  ClusterIP
+  ports:
+  - name:  smtp
+    port:  25
+    targetPort:  2525

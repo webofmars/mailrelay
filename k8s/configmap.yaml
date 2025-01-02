@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mailrelay
+  labels:
+    kubernetes.io/instance: mailrelay
+    kubernetes.io/name: mailrelay
+data:
+  mailrelay.json: |
+    {
+      "smtp_server": "smtp.tem.scw.cloud",
+      "smtp_port": 587,
+      "smtp_starttls": false,
+      "smtp_login_auth_type": false,
+      "smtp_username": "XXXXXXXXXXXXXXXXXXXX",
+      "smtp_password": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+      "smtp_max_email_size": 83886080,
+      "smtp_skip_cert_verify": false,
+      "local_listen_port": 2525,
+      "local_listen_ip": "0.0.0.0",
+      "allowed_hosts": ["*"],
+      "timeout_secs": 30
+    }
