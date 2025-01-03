@@ -16,6 +16,6 @@ jobs:
     uses: hoverkraft-tech/ci-github-container/.github/workflows/prune-pull-requests-images-tags.yml@0.18.0
     with:
       runs-on: '["ubuntu-24.04"]'
-      images: "mailrelay"
+      images: '["mailrelay"]'
       prune-cache-images: true
       pull-request-tag-filter: "^pr-([0-9]+)(?:-|$)"
