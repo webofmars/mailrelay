@@ -1,0 +1,43 @@
+name: Docker build images
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches: [main]
+  merge_group:
+  workflow_call:
+    inputs:
+      tag:
+        description: "Tag Version (semver - x.x.x)"
+        type: string
+        required: false
+    outputs:
+      built-images:
+        value: ${{ jobs.docker-build-images.outputs.built-images }}
+
+permissions:
+  contents: read
+  issues: read
+  packages: write
+  pull-requests: read
+  id-token: write
+
+jobs:
+  docker-build-images:
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/docker-build-images.yml@0.18.0
+    secrets:
+      oci-registry-password: ${{ secrets.GITHUB_TOKEN }}
+    with:
+      runs-on: '["ubuntu-24.04"]'
+      images: |
+        [{
+          "name": "mailrelay",
+          "dockerfile": "./Dockerfile",
+          "build-args": {},
+          "platforms": [
+              "linux/amd64",
+              "linux/arm64"
+          ]
+        }]

@@ -1,0 +1,56 @@
+name: 🚀 Release
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  check-branches:
+    name: Check branches
+    runs-on: self-hosted
+    steps:
+      - name: Check branch
+        run: |
+          if [[ "${{ github.ref_name }}" != "${{ github.event.repository.default_branch }}" ]]; then
+            echo "This action can only be run on the ${{ github.event.repository.default_branch }} branch"
+            exit 1
+          fi
+
+  update_release_draft:
+    name: Draft a new release
+    # we want to publish a new tag only if ci succeeds
+    needs: check-branches
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: self-hosted
+    outputs:
+      latestRelease: ${{ steps.update_release_draft.outputs.tag_name }}
+    steps:
+      # create a new release
+      - id: update_release_draft
+        uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          publish: true
+          disable-autolabeler: true
+
+  ci:
+    needs: update_release_draft
+    name: Continuous Integration
+    uses: ./.github/workflows/docker.yml
+    with:
+      tag: ${{ needs.update_release_draft.outputs.latestRelease }}
+    permissions:
+      actions: write
+      contents: read
+      id-token: write
+      issues: read
+      packages: write
+      pull-requests: read
+    secrets: inherit
