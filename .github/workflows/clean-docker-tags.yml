@@ -1,0 +1,21 @@
+name: Prune pull requests images tags
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+  packages: write
+  id-token: write
+
+jobs:
+  main:
+    uses: hoverkraft-tech/ci-github-container/.github/workflows/prune-pull-requests-images-tags.yml@0.18.0
+    with:
+      runs-on: '["ubuntu-24.04"]'
+      images: "mailrelay"
+      prune-cache-images: true
+      pull-request-tag-filter: "^pr-([0-9]+)(?:-|$)"
